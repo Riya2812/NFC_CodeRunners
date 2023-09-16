@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nutrition Analysis</title>
+    <link rel="stylesheet" href="static\css\styles.css" />
+  </head>
+  <body
+    style="
+      background-image: url('../static/images/my-image.jpg');
+      background-size: cover;
+    "
+  >
+    <div class="container">
+      <h1>Nutrition Analysis</h1>
+      <form id="nutritionForm" method="POST">
+        <div>
+          <label for="calories">Calories:</label>
+          <input type="number" id="calories" name="calories" required />
+        </div>
+        <div>
+          <label for="carbohydrates">Carbohydrates (g):</label>
+          <input
+            type="number"
+            id="carbohydrates"
+            name="carbohydrates"
+            required
+          />
+        </div>
+        <div>
+          <label for="fats">Fats (g):</label>
+          <input type="number" id="fats" name="fats" required />
+        </div>
+        <div>
+          <label for="protein">Protein (g):</label>
+          <input type="number" id="protein" name="protein" required />
+        </div>
+        <input type="submit" value="Analyze" />
+      </form>
+      <div id="results">
+        <!-- Results will be displayed here -->
+        <!-- <p>Suggested food</p>
+        <ul id="predictionList"></ul> -->
+      </div>
+    </div>
+
+    <!-- No need to include jQuery -->
+    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        document
+          .getElementById("nutritionForm")
+          .addEventListener("submit", function (e) {
+            e.preventDefault(); // Prevent the form from submitting in the default way
+
+            const calories = document.getElementById("calories").value;
+            const carbohydrates =
+              document.getElementById("carbohydrates").value;
+            const fats = document.getElementById("fats").value;
+            const protein = document.getElementById("protein").value;
+
+            // Create a new XMLHttpRequest object
+            const xhr = new XMLHttpRequest();
+
+            // Configure the request
+            xhr.open("POST", "/", true);
+            xhr.setRequestHeader(
+              "Content-Type",
+              "application/x-www-form-urlencoded"
+            );
+
+            // Define the callback function when the request completes
+            xhr.onload = function () {
+              if (xhr.status === 200) {
+                // Update the result section with the response
+                document.getElementById("results").innerHTML = xhr.responseText;
+              }
+            };
+
+            // Prepare the data to be sent
+            const formData = `calories=${encodeURIComponent(
+              calories
+            )}&carbohydrates=${encodeURIComponent(
+              carbohydrates
+            )}&fats=${encodeURIComponent(fats)}&protein=${encodeURIComponent(
+              protein
+            )}`;
+
+            // Send the POST request with the prepared data
+            xhr.send(formData);
+          });
+      });
+    </script>
+
+    <!-- <script src="../static/js/script.js"></script> -->
+  </body>
+</html>
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>Hello World</h1>
+    <form method="POST">
+      <input type="text" name="name" placeholder="Enter here" />
+      <input type="submit" value="submit" />
+    </form>
+    <p>{user_input}</p>
+  </body>
+</html> -->

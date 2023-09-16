@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ML Prediction</title>
+  </head>
+  <body>
+    <h1>ML Prediction</h1>
+
+    <form id="myForm">
+      <label for="user_input">Enter data for prediction:</label>
+      <input type="text" id="user_input" name="user_input" />
+      <button type="submit">Submit</button>
+    </form>
+
+    <div id="prediction"></div>
+
+    <script>
+      document
+        .getElementById("myForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          const userInput = document.getElementById("user_input").value;
+
+          fetch("/", {
+            method: "POST",
+            body: new URLSearchParams({ user_input }),
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+            },
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              document.getElementById(
+                "prediction"
+              ).textContent = `user_input: ${data.user_input}`;
+            });
+        });
+    </script>
+  </body>
+</html>
